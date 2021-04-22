@@ -16,3 +16,5 @@ curl "${API}${URL_PATH}/" \
   }'
 
 echo
+
+# TOKEN=token OLDPW=oldpassword NEWPW=newpassword sh curl-scripts/auth/change-password.sh

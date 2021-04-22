@@ -5,21 +5,31 @@
 A template for starting projects with `express` as an API. Includes
 authentication and common middlewares.
 
-## Installation
+## User Stories
+- As a new user, I want to be able to create a new account with my email and a password.
+- As a returning user, I want to be able to sign into my account to access the virtual pets I own and view all other pets or search for a specific pet by owner, name, or type
+- As a logged-in user, I want to be able to adopt (create), interact with (edit), and release (delete) my pets. I want other users to be able to view my pets, but not have the ability to edit them
+- As a logged-in user, I want to be able to change my account password and sign-out of my account
 
-1. [Download](../../archive/main.zip) this template.
-1. Move the .zip file to your `sei/projects/` directory and Unzip it (creating a
-   folder) -- **NOTE:** if the folder was already unzipped, use the `mv` command
-   line to move it to the `sei/projects/` directory.
-1. Rename the directory from express-api-template -> your-app-name.
-1. Empty [`README.md`](README.md) and fill with your own content.
-1. Move into the new project and `git init`.
-1. Replace all instances of `'express-api-template'` with your app name.
-1. Install dependencies with `npm install`.
-1. Ensure that you have `nodemon` installed by running `npm install -g nodemon`.
-1. Ensure the API is functioning properly by running `npm run server`.
-1. Once everything is working, make an initial commit.
-1. Follow the steps in [express-api-deployment-guide](https://git.generalassemb.ly/ga-wdi-boston/express-api-deployment-guide)
+/* ╔═╗╔═╗╔═╗╔╦╗
+ * ╠═╝║ ║╚═╗ ║
+ * ╩  ╚═╝╚═╝ ╩
+ * CREATE : /pets */
+ 
+/* ╔═╗╔═╗╔╦╗
+ * ║ ╦║╣  ║
+ * ╚═╝╚═╝ ╩
+*/
+
+/* ╔═╗╔═╗╔╦╗╔═╗╦ ╦
+ * ╠═╝╠═╣ ║ ║  ╠═╣
+ * ╩  ╩ ╩ ╩ ╚═╝╩ ╩
+*/
+
+/* ╔╦╗╔═╗╦  ╔═╗╔╦╗╔═╗
+ *  ║║║╣ ║  ║╣  ║ ║╣
+ * ═╩╝╚═╝╩═╝╚═╝ ╩ ╚═╝
+*/
 
 ## Structure
 

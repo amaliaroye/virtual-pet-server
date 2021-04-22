@@ -9,3 +9,5 @@ curl "${API}${URL_PATH}/" \
   --header "Authorization: Bearer ${TOKEN}"
 
 echo
+
+# TOKEN=token sh curl-scripts/auth/sign-out.sh

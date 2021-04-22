@@ -1,6 +1,9 @@
+'use strict'
+// require mongoose library
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
+  // mongoose adds a _.id property to every schema by default
   email: {
     type: String,
     required: true,
@@ -10,7 +13,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  token: String
+  username: {
+    type: String,
+    unique: true
+  },
+  token: {
+    type: String
+  }
 }, {
   timestamps: true,
   toObject: {
