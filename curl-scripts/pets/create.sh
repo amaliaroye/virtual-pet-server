@@ -1,3 +1,4 @@
+#!/bin/bash
 curl "http://localhost:4741/pets" \
   --include \
   --request POST \

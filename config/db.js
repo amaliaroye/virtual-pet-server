@@ -1,7 +1,7 @@
 'use strict'
 
 // creating a base name for the mongodb
-const mongooseBaseName = 'virtual-pet-server'
+const mongooseBaseName = 'virtual-pet-database'
 
 // create the mongodb uri for development and test
 const database = {
