@@ -2,10 +2,9 @@
 const express = require('express')
 const passport = require('passport')
 
-// pull in Mongoose model for pet
 const Pet = require('../models/pet')
 
-// collection of methods that detects situations when we need to throw a custom error
+// collection of methods that detect when a custom error should be thrown
 const customErrors = require('../../lib/custom_errors')
 
 // we'll use this function to send 404 when non-existant document is requested
@@ -24,15 +23,13 @@ const requireToken = passport.authenticate('bearer', { session: false })
 // create an express instance (mini app that only handles routes)
 const router = express.Router()
 
-/*       ___   ___   ___     _     _____   ___
- *      / __| | _ \ | __|   /_\   |_   _| | __|
- *     | (__  |   / | _|   / _ \    | |   | _|
- *      \___| |_|_\ |___| /_/ \_\   |_|   |___|
+/*
+ * ---------------------------------------------------- [ C R E A T E ] --------
+ * POST : /pets
  */
-// POST: /pets
 router.post('/pets', requireToken, (req, res, next) => {
   const pet = req.body.pet
-  // set owner of new pet to be currently logged-in user
+  // set the owner of new pet to be the user that is currently signed-in
   pet.owner = req.user.id
 
   // create new pet using `Pet` model
@@ -43,30 +40,26 @@ router.post('/pets', requireToken, (req, res, next) => {
     .catch(next)
 })
 
-/*      ___   _  _   ___    ___  __  __
- *     |_ _| | \| | |   \  | __| \ \/ /
- *      | |  | .` | | |) | | _|   >  <
- *     |___| |_|\_| |___/  |___| /_/\_\
+/*
+ * ------------------------------------------------------ [ I N D E X ] --------
+ * GET : /pets
  */
-// GET: /pets (owned by current user)
 router.get('/pets', requireToken, (req, res, next) => {
   const owner = req.user
   // search for ALL pets with the user's id as owner
   Pet.find({ owner: owner.id })
     // if no documents are found, return a 404: Not Found error
     .then(handle404)
-    // return 200: OK and list all pets owned by the user
+    // return 200: OK and list ALL pets owned by the user
     .then((pets) => { res.status(200).json({ pets }) })
     // if error
     .catch(next)
 })
 
-/*      ___   _  _    ___   __      __
- *     / __| | || |  / _ \  \ \    / /
- *     \__ \ | __ | | (_) |  \ \/\/ /
- *     |___/ |_||_|  \___/    \_/\_/
+/*
+ * -------------------------------------------------------- [ S H O W ] --------
+ * GET : /pets/:id
  */
-// GET: /pets/:id (search for a pet by id)
 router.get('/pets/:id', requireToken, (req, res, next) => {
   Pet.findById(req.params.id)
     .then(handle404)
@@ -74,17 +67,13 @@ router.get('/pets/:id', requireToken, (req, res, next) => {
     .catch(next)
 })
 
-/*      _   _   ___   ___      _     _____   ___
- *     | | | | | _ \ |   \    /_\   |_   _| | __|
- *     | |_| | |  _/ | |) |  / _ \    | |   | _|
- *      \___/  |_|   |___/  /_/ \_\   |_|   |___|
+/*
+ * ---------------------------------------------------- [ U P D A T E ] --------
+ * PATCH : /pets/:id
  */
-// PATCH: /pets/:id
 router.patch('/pets/:id', requireToken, removeBlanks, (req, res, next) => {
-  // set `petData` as the info in the body of the request
   const petData = req.body.pet
-  // if the client attempts to change the `owner` property by including a new
-  // owner, prevent that by deleting that key/value pair
+  // prevents changing the `owner` property
   delete petData.owner
   Pet.findById(req.params.id)
     .then(handle404)
@@ -92,21 +81,22 @@ router.patch('/pets/:id', requireToken, removeBlanks, (req, res, next) => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
       // it will throw an error if the current user isn't the owner
       requireOwnership(req, pet)
+
+      // pet.happiness +=
+      // return pet.save()
+
       // pass the result of Mongoose's `.update` to the next `.then`
       return pet.updateOne(petData)
     })
-    // return 202: Accepted
-    .then(() => { res.sendStatus(204) })
-    // if an error occurs, pass it to the handler
+    // return 200: OK
+    .then(() => { res.sendStatus(200) })
     .catch(next)
 })
 
-/*      ___    ___   _      ___   _____   ___
- *     |   \  | __| | |    | __| |_   _| | __|
- *     | |) | | _|  | |__  | _|    | |   | _|
- *     |___/  |___| |____| |___|   |_|   |___|
+/*
+ * ---------------------------------------------------- [ D E L E T E ] --------
+ * DELETE : /pets/:id
  */
-// DELETE: /pets/:id
 router.delete('/pets/:id', requireToken, (req, res, next) => {
   Pet.findById(req.params.id)
     .then(handle404)
@@ -114,6 +104,7 @@ router.delete('/pets/:id', requireToken, (req, res, next) => {
       requireOwnership(req, pet)
       pet.deleteOne()
     })
+    // return 204: No Content
     .then(() => res.sendStatus(204))
     .catch(next)
 })

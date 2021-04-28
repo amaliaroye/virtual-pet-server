@@ -68,7 +68,7 @@ app.use(errorHandler)
 
 // run API on designated port (4741 in this case)
 app.listen(port, () => {
-  console.log(`Server is running on Port:${port}!`)
+  console.log(`Server is running on Port: ${port}!`)
 })
 
 // needed for testing
