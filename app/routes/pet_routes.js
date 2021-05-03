@@ -68,35 +68,9 @@ router.get('/pets/:id', requireToken, (req, res, next) => {
 })
 
 /*
- * ---------------------------------------------------- [ U P D A T E ] --------
- * PATCH : /pets/:id
- */
-router.patch('/pets/:id', requireToken, removeBlanks, (req, res, next) => {
-  const petData = req.body.pet
-  // prevents changing the `owner` property
-  delete petData.owner
-  Pet.findById(req.params.id)
-    .then(handle404)
-    .then((pet) => {
-      // pass the `req` object and the Mongoose record to `requireOwnership`
-      // it will throw an error if the current user isn't the owner
-      requireOwnership(req, pet)
-
-      // pet.happiness +=
-      // return pet.save()
-
-      // pass the result of Mongoose's `.update` to the next `.then`
-      return pet.updateOne(petData)
-    })
-    // return 200: OK
-    .then(() => { res.sendStatus(200) })
-    .catch(next)
-})
-
-/*
- * ---------------------------------------------------- [ D E L E T E ] --------
- * DELETE : /pets/:id
- */
+* ---------------------------------------------------- [ D E L E T E ] --------
+* DELETE : /pets/:id
+*/
 router.delete('/pets/:id', requireToken, (req, res, next) => {
   Pet.findById(req.params.id)
     .then(handle404)
@@ -104,9 +78,42 @@ router.delete('/pets/:id', requireToken, (req, res, next) => {
       requireOwnership(req, pet)
       pet.deleteOne()
     })
-    // return 204: No Content
+  // return 204: No Content
     .then(() => res.sendStatus(204))
     .catch(next)
 })
+
+/*
+ * ---------------------------------------------------- [ U P D A T E ] --------
+ * PATCH : /pets/:id
+ */
+router.patch('/pets/:id', requireToken, removeBlanks, (req, res, next) => {
+  const petData = req.body.pet
+  // prevents changing the `owner` property
+  delete petData.owner
+
+  Pet.findById(req.params.id)
+    .then(handle404)
+    .then((pet) => {
+      // pass the `req` object and the Mongoose record to `requireOwnership`
+      requireOwnership(req, pet)
+
+      // add random amount to pet happiness
+      pet.happiness = pet.happiness + randomNumber(1, 5)
+      // save to database
+      return pet.save()
+    })
+
+    // return 200: OK
+    .then((pet) => { res.status(200).json({ pet }) })
+    .catch(next)
+})
+
+/*
+ * ------------------ [ R A N D O M   N U M B E R   G E N E R A T O R ] --------
+ */
+const randomNumber = function (min, max) {
+  return Math.floor((Math.random() * (max - min + 1)) + min)
+}
 
 module.exports = router
