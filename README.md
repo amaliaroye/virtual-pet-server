@@ -1,11 +1,31 @@
-# Virtual Pet Server
+# Project 2: Virtual Pet Server
 
 ## Description
-Express API Server for Virtual Pet
+Express API Server for Virtual Pet application.
 
-## Links
+### Technologies Used
+- Javascript
+- Express
+- Mongoose
+- MongoDB
+-
+## Important Links
+[Github Repository](https://github.com/amaliaroye/virtual-pet-server)
+[Deployed Server](https://virtual-pet-server.herokuapp.com/)
 
 ## Entity Relationship Diagram
+![Entity Relationship Diagram](https://i.imgur.com/jfBCUKA.jpg)
+
+### Pets CRUD
+
+| Verb   | URI Pattern      | Controller#Action |
+|--------|------------------|-------------------|
+| GET    | `/pets`          | `pets#index`      |
+| GET    | `/pets/:id`      | `pets#show`       |
+| POST   | `/pets`          | `pets#create`     |
+| PATCH  | `/pets/:id/`     | `pets#update`     |
+| DELETE | `/pets/:id/`     | `pets#release`    |
+
 
 ### Authentication
 
@@ -15,116 +35,3 @@ Express API Server for Virtual Pet
 | POST   | `/sign-in`             | `users#signin`    |
 | PATCH  | `/change-password/`    | `users#changepw`  |
 | DELETE | `/sign-out/`           | `users#signout`   |
-
-#### POST /sign-up
-
-Request:
-
-```sh
-curl --include --request POST http://localhost:4741/sign-up \
-  --header "Content-Type: application/json" \
-  --data '{
-    "credentials": {
-      "email": "an@example.email",
-      "password": "an example password",
-      "password_confirmation": "an example password"
-    }
-  }'
-```
-
-```sh
-curl-scripts/sign-up.sh
-```
-
-Response:
-
-```md
-HTTP/1.1 201 Created
-Content-Type: application/json; charset=utf-8
-
-{
-  "user": {
-    "id": 1,
-    "email": "an@example.email"
-  }
-}
-```
-
-#### POST /sign-in
-
-Request:
-
-```sh
-curl --include --request POST http://localhost:4741/sign-in \
-  --header "Content-Type: application/json" \
-  --data '{
-    "credentials": {
-      "email": "an@example.email",
-      "password": "an example password"
-    }
-  }'
-```
-
-```sh
-curl-scripts/sign-in.sh
-```
-
-Response:
-
-```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-
-{
-  "user": {
-    "id": 1,
-    "email": "an@example.email",
-    "token": "33ad6372f795694b333ec5f329ebeaaa"
-  }
-}
-```
-
-#### PATCH /change-password/
-
-Request:
-
-```sh
-curl --include --request PATCH http://localhost:4741/change-password/ \
-  --header "Authorization: Bearer $TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
-    "passwords": {
-      "old": "an example password",
-      "new": "super sekrit"
-    }
-  }'
-```
-
-```sh
-TOKEN=33ad6372f795694b333ec5f329ebeaaa curl-scripts/change-password.sh
-```
-
-Response:
-
-```md
-HTTP/1.1 204 No Content
-```
-
-#### DELETE /sign-out/
-
-Request:
-
-```sh
-curl --include --request DELETE http://localhost:4741/sign-out/ \
-  --header "Authorization: Bearer $TOKEN"
-```
-
-```sh
-TOKEN=33ad6372f795694b333ec5f329ebeaaa curl-scripts/sign-out.sh
-```
-
-Response:
-
-```md
-HTTP/1.1 204 No Content
-```
