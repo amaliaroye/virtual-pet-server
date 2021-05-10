@@ -1,14 +1,14 @@
 # Project 2: Virtual Pet Server
 
 ## Description
-Express API Server for Virtual Pet application.
+Express API Server for an application that allows users to create and play with virtual pets. The pets' happiness level increases a random amount when you play with them.
 
 ### Technologies Used
 - Javascript
 - Express
 - Mongoose
 - MongoDB
--
+
 ## Important Links
 [Github Repository](https://github.com/amaliaroye/virtual-pet-server)
 [Deployed Server](https://virtual-pet-server.herokuapp.com/)
